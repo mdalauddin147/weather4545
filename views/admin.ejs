@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Page</title>
+  </head>
+  <body>
+    <div class="display" style="background-color: red"></div>
+    <h1>Users</h1>
+    <ul></ul>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", async () => {
+        const ul = document.querySelector("ul");
+        const display = document.querySelector(".display");
+
+        // Fetch data
+        const res = await fetch("/api/auth/getUsers");
+        const data = await res.json();
+
+        // Display users
+        data.user.forEach((user) => {
+          if (user.username !== "admin") {
+            let li = document.createElement("li");
+            li.innerHTML = `<b>Username</b> => ${user.username} <br> <b>Role</b> => ${user.role}`;
+
+            let editButton = document.createElement("button");
+            editButton.textContent = "Make Admin";
+            editButton.className = "edit";
+
+            let deleteButton = document.createElement("button");
+            deleteButton.textContent = "Delete User";
+            deleteButton.className = "delete";
+
+            // Append buttons to the li element
+            li.appendChild(editButton);
+            li.appendChild(deleteButton);
+
+            // Append the li element to the ul
+            ul.appendChild(li);
+
+            // Attach event listeners after elements are created
+            editButton.addEventListener("click", async () => {
+              display.textContent = "";
+              const userId = user._id;
+              const res = await fetch("/api/auth/updateUser", {
+                method: "PUT",
+                body: JSON.stringify({ role: "admin", id: userId }),
+                headers: { "Content-Type": "application/json" },
+              });
+              const dataUpdate = await res.json();
+              if (res.status === 400 || res.status === 401) {
+                document.body.scrollTop = 0;
+                document.documentElement.scrollTop = 0;
+                display.textContent = `${dataUpdate.message}. ${
+                  dataUpdate.error ? dataUpdate.error : ""
+                }`;
+              }
+              location.assign("/admin");
+            });
+
+            deleteButton.addEventListener("click", async () => {
+              display.textContent = "";
+              const userId = user._id;
+              const res = await fetch("/api/auth/deleteUser", {
+                method: "DELETE",
+                body: JSON.stringify({ id: userId }),
+                headers: { "Content-Type": "application/json" },
+              });
+              const dataDelete = await res.json();
+              if (res.status === 401) {
+                document.body.scrollTop = 0;
+                document.documentElement.scrollTop = 0;
+                display.textContent = `${dataDelete.message}. ${
+                  dataDelete.error ? dataDelete.error : ""
+                }`;
+              }
+              location.assign("/admin");
+            });
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

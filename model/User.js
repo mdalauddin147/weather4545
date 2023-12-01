@@ -16,6 +16,10 @@ const UserSchema = new Mongoose.Schema({
         default: "Basic",
         required: true,
     },
+    defaultlocation: {
+        type: String,
+        default: "kathmandu"
+    }
 })
 
 const User = Mongoose.model("user", UserSchema)

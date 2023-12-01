@@ -1,0 +1,63 @@
+<!-- views/home.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+
+    <!-- Add a separate style block for better organization -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background-image: url('/images/weather.jpg'); /* Path to your image */
+            background-size: 100% auto; /* Cover the width, maintain aspect ratio */
+            background-position: bottom; /* Position at the bottom */
+            color: white;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        nav {
+            margin-top: 20px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        a {
+            display: block;
+            margin-bottom: 10px;
+            text-decoration: none;
+            color: #007BFF;
+            font-size: 18px;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Weather App Home</h1>
+
+    <nav>
+        <ul>
+            <li><a href="/register">Register</a></li>
+            <li><a href="/login">Login</a></li>
+        </ul>
+    </nav>
+</body>
+</html>
